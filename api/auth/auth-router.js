@@ -1,7 +1,8 @@
 const bcrypt = require("bcryptjs");
+const Joke = require("../jokes/jokes-data");
+const { BCRYPT_ROUNDS } = require("../../config");
 const router = require("express").Router();
-router.post("/register", (req, res) => {
-  res.end("implement register, please!");
+router.post("/register", (req, res, next) => {
   /*
     IMPLEMENT
     You are welcome to build additional middlewares to help with the endpoint's functionality.
@@ -27,6 +28,12 @@ router.post("/register", (req, res) => {
     4- On FAILED registration due to the `username` being taken,
       the response body should include a string exactly as follows: "username taken".
   */
+  let joke = req.body;
+  const hash = bcrypt.hashSync(joke.password, BCRYPT_ROUNDS);
+
+  joke.password = hash;
+
+  //unsure on how to add joke to database with static jokes-data.js, I'm probably not seeing something...
 });
 
 router.post("/login", (req, res) => {
